@@ -39,5 +39,12 @@ namespace Crossword
             var list = new Word("malnourished").Similar;
             CollectionAssert.Contains(list.Select(w => w.Text), "foodless");
         }
+
+        [Test]
+        public void HotIsOppositeOfCold()
+        {
+            var list = new Word("hot").Antonym;
+            CollectionAssert.Contains(list.Select(w => w.Text), "cold");
+        }
     }
 }
