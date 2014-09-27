@@ -16,7 +16,7 @@ namespace Crossword
             Text = text;
         }
 
-        public string[] Similar
+        public Word[] Similar
         {
             get
             {
@@ -24,10 +24,10 @@ namespace Crossword
                 {
                     conn.Open();
                     var result = new MySqlCommand("SELECT two.Word FROM wn_synset one, wn_synset two, wn_similar relation WHERE relation.synset_id_1 = one.synset_id AND relation.synset_id_2 = two.synset_id AND one.Word = '" + Text + "'", conn).ExecuteReader();
-                    var list = new List<string>();
+                    var list = new List<Word>();
                     while (result.Read())
                     {
-                        list.Add(result["Word"] as string);
+                        list.Add(new Word(result["Word"] as string));
                     }
                     return list.ToArray();
                 }

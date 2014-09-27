@@ -36,7 +36,7 @@ namespace Crossword
         [Test]
         public void FoodlessMeansMalnourished()
         {
-            var list = new Word("malnourished").Similar;
+            var list = new Word("malnourished").Similar.Select(w => w.Text);
             CollectionAssert.Contains(list, "foodless");
         }
     }
