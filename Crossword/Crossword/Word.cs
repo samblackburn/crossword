@@ -33,5 +33,10 @@ namespace Crossword
                 }
             }
         }
+
+        public override string ToString()
+        {
+            return Text;
+        }
     }
 }
