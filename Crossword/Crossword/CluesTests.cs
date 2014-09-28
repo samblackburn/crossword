@@ -30,5 +30,12 @@ namespace Crossword
             var solutions = new Solver("Grass in-law? No!", "____").Included();
             Assert.AreEqual("lawn", solutions.Single().Text);
         }
+
+        [Test]
+        public void HarderIncluded()
+        {
+            var solutions = new Solver("book in to meeting", "____").StraightPlusIncluded();
+            Assert.AreEqual("tome", solutions.Single().Text);
+        }
     }
 }

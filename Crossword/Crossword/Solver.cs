@@ -12,7 +12,7 @@ namespace Crossword
 
         public Solver(string clue, string pattern)
         {
-            this.m_Clue = clue;
+            this.m_Clue = clue.ToLower();
             this.m_Pattern = pattern;
         }
 
@@ -29,8 +29,14 @@ namespace Crossword
 
         internal Word[] Included()
         {
-            var clue = m_Clue.Replace(" ", "").Replace("?", "").ToLower();
+            var clue = m_Clue.Replace(" ", "").Replace("?", "");
             IEnumerable<Word> result = Word.Matching(m_Pattern).Where(c => clue.Contains(c.Text));
+            return result.ToArray();
+        }
+
+        internal Word[] StraightPlusIncluded()
+        {
+            var result = Included().Where(new Word(m_Clue.Split(' ', '_')[0]).AllExceptAntonym.Contains);
             return result.ToArray();
         }
     }
