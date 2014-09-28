@@ -12,14 +12,14 @@ namespace Crossword
 
         public Solver(string clue, string pattern)
         {
-            this.m_Clue = clue.ToLower();
+            this.m_Clue = clue;
             this.m_Pattern = pattern;
         }
 
         internal Word[] DoubleDefinitions()
         {
             IEnumerable<Word> result = Word.Matching(m_Pattern);
-            foreach (var cluePart in m_Clue.Split(' ', '_'))
+            foreach (var cluePart in ClueParts)
             {
                 var candidates = new Word(cluePart).AllExceptAntonym;
                 result = result.Where(candidates.Contains);
@@ -27,35 +27,26 @@ namespace Crossword
             return result.Distinct().ToArray();
         }
 
-        internal Word[] Included()
+        internal PartialSolution Included()
         {
-            var clue = m_Clue.Replace(" ", "").Replace("?", "");
-            IEnumerable<Word> result = Word.Matching(m_Pattern).Where(c => clue.Contains(c.Text));
-            return result.ToArray();
+            IEnumerable<Word> result = Word.Matching(m_Pattern).Where(c => ClueText.Contains(c.Text));
+            return new PartialSolution(result, ClueParts);
         }
 
-        internal Word[] StraightPlusIncluded()
+        internal PartialSolution Anagram()
         {
-            var result = Included().Where(new Word(m_Clue.Split(' ', '_')[0]).AllExceptAntonym.Contains);
-            return result.ToArray();
+            var clueParts = ClueParts.Where(cp => cp.Length == m_Pattern.Replace(" ", "").Length);
+            return new PartialSolution(clueParts.SelectMany(AnagramsOfWord), ClueParts);
         }
 
-        internal Word[] Anagram()
-        {
-            var clueParts = m_Clue.Split(' ', '_').Where(cp => cp.Length == m_Pattern.Replace(" ", "").Length);
-            return clueParts.SelectMany(AnagramsOfWord).ToArray();
-        }
-
-        private Word[] AnagramsOfWord(string input)
+        private PartialSolution AnagramsOfWord(string input)
         {
             var candidates = Word.Matching(new String('_', input.Length));
-            return candidates.Where(w => w.Text != input && w.Text.OrderBy(c => c).SequenceEqual(input.OrderBy(c => c))).Distinct().ToArray();
+            var result = candidates.Where(w => w.Text != input && w.Text.OrderBy(c => c).SequenceEqual(input.OrderBy(c => c)));
+            return new PartialSolution(result, ClueParts);
         }
 
-        internal Word[] StraightPlusAnagram()
-        {
-            var result = Anagram().Where(new Word(m_Clue.Split(' ', '_')[0]).AllExceptAntonym.Contains);
-            return result.ToArray();
-        }
+        private string[] ClueParts { get { return m_Clue.ToLower().Replace("?", "").Replace("-", " ").Split(' ', '_'); } }
+        private string ClueText { get { return m_Clue.ToLower().Replace("?", "").Replace("-", " ").Replace(" ", ""); } }
     }
 }

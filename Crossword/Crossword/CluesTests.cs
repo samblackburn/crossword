@@ -35,7 +35,7 @@ namespace Crossword
         public void HarderIncluded()
         {
             // Need the straight here to eliminate "meet"
-            var solutions = new Solver("book in to meeting", "____").StraightPlusIncluded();
+            var solutions = new Solver("book in to meeting", "____").Included().PlusStraight();
             Assert.AreEqual("tome", solutions.Single().Text);
         }
 
@@ -49,7 +49,7 @@ namespace Crossword
         [Test]
         public void StraightPlusAnagram()
         {
-            var solutions = new Solver("rock random notes", "_____").StraightPlusAnagram();
+            var solutions = new Solver("rock random notes", "_____").Anagram().PlusStraight();
             Assert.AreEqual("stone", solutions.Single().Text);
         }
     }
