@@ -15,8 +15,22 @@ namespace Crossword
         public Word(string text) { Text = text; }
 
         public Word[] Antonym { get { return Join("wn_antonym"); } }
+        public Word[] Attribute { get { return Join("wn_attr_adj_noun"); } }
+        public Word[] Cause { get { return Join("wn_cause"); } }
+        public Word[] Class { get { return Join("wn_class_member"); } }
+        public Word[] Derived { get { return Join("wn_derived"); } }
+        public Word[] Entails { get { return Join("wn_entails"); } }
+        public Word[] Hypernym { get { return Join("wn_hypernym"); } }
+        public Word[] Hyponym { get { return Join("wn_hyponym"); } }
+        public Word[] Member { get { return Join("wn_mbr_meronym"); } }
+        public Word[] Part { get { return Join("wn_part_meronym"); } }
+        public Word[] Particple { get { return Join("wn_participle"); } }
+        public Word[] Pertainym { get { return Join("wn_pertainym"); } }
+        public Word[] See { get { return Join("wn_see_also"); } }
         public Word[] Similar { get { return Join("wn_similar"); } }
-        
+        public Word[] Subst { get { return Join("wn_subst_meronym"); } }
+        public Word[] Group { get { return Join("wn_verb_group"); } }
+
         private Word[] Join(string table)
         {
             using (var conn = new MySqlConnection("Data Source=localhost;Database=wn_pro_mysql;User ID=sam;Password=;Old Guids=true;"))

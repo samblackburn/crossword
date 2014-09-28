@@ -43,8 +43,8 @@ namespace Crossword
         [Test]
         public void HotIsOppositeOfCold()
         {
-            var list = new Word("hot").Antonym;
-            CollectionAssert.Contains(list.Select(w => w.Text), "cold");
+            var hot = new Word("hot");
+            CollectionAssert.Contains(hot.Antonym.Select(w => w.Text), "cold");
         }
     }
 }
