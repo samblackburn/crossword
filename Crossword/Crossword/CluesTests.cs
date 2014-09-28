@@ -13,12 +13,22 @@ namespace Crossword
         [Test]
         public void DoubleDefinition()
         {
-            var blue = new Word("blue");
+            var solutions = new Solver("northern sky", "____").DoubleDefinitions();
+            Assert.AreEqual("blue", solutions.Single().Text);
+        }
 
-            var clue = "northern sky";
-            var pattern = "____";
-            var solutions = new Solver(clue, pattern).DoubleDefinitions();
-            CollectionAssert.Contains(solutions.Select(s => s.Text), "blue");
+        [Test]
+        public void TripleDefinition()
+        {
+            var solutions = new Solver("burning fuel sack", "____").DoubleDefinitions();
+            Assert.AreEqual("fire", solutions.Single().Text);
+        }
+
+        [Test]
+        public void Included()
+        {
+            var solutions = new Solver("Grass in-law? No!", "____").Included();
+            Assert.AreEqual("lawn", solutions.Single().Text);
         }
     }
 }

@@ -32,6 +32,8 @@ namespace Crossword
         public Word[] Subst { get { return Join("wn_subst_meronym"); } }
         public Word[] Group { get { return Join("wn_verb_group"); } }
 
+        public Word[] AllExceptAntonym { get { return Attribute.Concat(Cause.Concat(Class.Concat(Derived.Concat(Entails.Concat(Hypernym.Concat(Hyponym.Concat(Member.Concat(Part.Concat(Particple.Concat(Pertainym.Concat(See.Concat(Similar.Concat(Subst.Concat(Group)))))))))))))).ToArray(); } }
+
         private Word[] Join(string table)
         {
             using (var conn = new MySqlConnection("Data Source=localhost;Database=wn_pro_mysql;User ID=sam;Password=;Old Guids=true;"))

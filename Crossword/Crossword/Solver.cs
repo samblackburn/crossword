@@ -21,10 +21,17 @@ namespace Crossword
             IEnumerable<Word> result = Word.Matching(m_Pattern);
             foreach (var cluePart in m_Clue.Split(' ', '_'))
             {
-                var candidates = new Word(cluePart).Similar.Concat(new Word(cluePart).Hyponym);
+                var candidates = new Word(cluePart).AllExceptAntonym;
                 result = result.Where(candidates.Contains);
             }
             return result.Distinct().ToArray();
+        }
+
+        internal Word[] Included()
+        {
+            var clue = m_Clue.Replace(" ", "").Replace("?", "").ToLower();
+            IEnumerable<Word> result = Word.Matching(m_Pattern).Where(c => clue.Contains(c.Text));
+            return result.ToArray();
         }
     }
 }
