@@ -9,7 +9,7 @@ using MySql.Data.MySqlClient;
 namespace Crossword
 {
     [TestFixture]
-    public class Tests
+    public class DatabaseTests
     {
         [Test]
         public void ConnectToSqlServer()
