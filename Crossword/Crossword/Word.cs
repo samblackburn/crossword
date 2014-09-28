@@ -46,5 +46,22 @@ namespace Crossword
                 return list.ToArray();
             }
         }
+
+        /// <param name="pattern">Underscore to mean any letter, space to mean a word separator, e.g. "t_ug_ c_ee_e"</param>
+        internal static Word[] Matching(string pattern)
+        {
+            using (var conn = new MySqlConnection("Data Source=localhost;Database=wn_pro_mysql;User ID=sam;Password=;Old Guids=true;"))
+            {
+                conn.Open();
+                var sql = String.Format("SELECT word FROM wn_synset WHERE word like '{0}'", pattern.Replace(" ", "\\_"));
+                var result = new MySqlCommand(sql, conn).ExecuteReader();
+                var list = new List<Word>();
+                while (result.Read())
+                {
+                    list.Add(new Word(result["word"] as string));
+                }
+                return list.ToArray();
+            }
+        }
     }
 }

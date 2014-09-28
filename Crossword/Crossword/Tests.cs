@@ -46,5 +46,20 @@ namespace Crossword
             var hot = new Word("hot");
             CollectionAssert.Contains(hot.Antonym.Select(w => w.Text), "cold");
         }
+
+        [Test]
+        public void DogIsAThreeLetterWord()
+        {
+            var matches = Word.Matching("___").Select(w => w.Text);
+            CollectionAssert.Contains(matches, "dog");
+            CollectionAssert.DoesNotContain(matches, "mouse");
+        }
+
+        [Test]
+        public void ToughCheeseIsTwoWords()
+        {
+            var matches = Word.Matching("f__t b___e").Select(w => w.Text);
+            CollectionAssert.Contains(matches, "foot_brake");
+        }
     }
 }
