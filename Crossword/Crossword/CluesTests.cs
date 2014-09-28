@@ -38,5 +38,19 @@ namespace Crossword
             var solutions = new Solver("book in to meeting", "____").StraightPlusIncluded();
             Assert.AreEqual("tome", solutions.Single().Text);
         }
+
+        [Test]
+        public void Anagram()
+        {
+            var solutions = new Solver("scramble on", "__").Anagram();
+            Assert.AreEqual("no", solutions.Single().Text);
+        }
+
+        [Test]
+        public void StraightPlusAnagram()
+        {
+            var solutions = new Solver("rock random notes", "_____").StraightPlusAnagram();
+            Assert.AreEqual("stone", solutions.Single().Text);
+        }
     }
 }

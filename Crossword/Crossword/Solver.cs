@@ -39,5 +39,23 @@ namespace Crossword
             var result = Included().Where(new Word(m_Clue.Split(' ', '_')[0]).AllExceptAntonym.Contains);
             return result.ToArray();
         }
+
+        internal Word[] Anagram()
+        {
+            var clueParts = m_Clue.Split(' ', '_').Where(cp => cp.Length == m_Pattern.Replace(" ", "").Length);
+            return clueParts.SelectMany(AnagramsOfWord).ToArray();
+        }
+
+        private Word[] AnagramsOfWord(string input)
+        {
+            var candidates = Word.Matching(new String('_', input.Length));
+            return candidates.Where(w => w.Text != input && w.Text.OrderBy(c => c).SequenceEqual(input.OrderBy(c => c))).Distinct().ToArray();
+        }
+
+        internal Word[] StraightPlusAnagram()
+        {
+            var result = Anagram().Where(new Word(m_Clue.Split(' ', '_')[0]).AllExceptAntonym.Contains);
+            return result.ToArray();
+        }
     }
 }
