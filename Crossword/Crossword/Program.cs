@@ -13,6 +13,7 @@ namespace Crossword
         static void Main(string[] args)
         {
             RunTestsIn<DatabaseTests>();
+            RunTestsIn<CluesTests>();
             if (s_Errors.Any()) Console.ReadKey();
         }
 

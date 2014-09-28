@@ -11,7 +11,8 @@ namespace Crossword
     {
         public readonly string Text;
         public override string ToString() { return Text; }
-
+        public override bool Equals(object other) { return other is Word && Text.Equals(((Word)other).Text); }
+        public override int GetHashCode() { return Text.GetHashCode(); }
         public Word(string text) { Text = text; }
 
         public Word[] Antonym { get { return Join("wn_antonym"); } }
