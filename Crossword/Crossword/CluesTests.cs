@@ -34,6 +34,7 @@ namespace Crossword
         [Test]
         public void HarderIncluded()
         {
+            // Need the straight here to eliminate "meet"
             var solutions = new Solver("book in to meeting", "____").StraightPlusIncluded();
             Assert.AreEqual("tome", solutions.Single().Text);
         }
