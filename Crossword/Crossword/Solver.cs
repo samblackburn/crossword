@@ -48,5 +48,10 @@ namespace Crossword
 
         private string[] ClueParts { get { return m_Clue.ToLower().Replace("?", "").Replace("-", " ").Split(' ', '_'); } }
         private string ClueText { get { return m_Clue.ToLower().Replace("?", "").Replace("-", " ").Replace(" ", ""); } }
+
+        internal Word[] Guesses()
+        {
+            return Included().Concat(Anagram()).ToArray();
+        }
     }
 }

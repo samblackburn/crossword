@@ -1,8 +1,7 @@
-﻿using System;
+﻿using Crossword.Tests;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Crossword
 {
@@ -14,6 +13,7 @@ namespace Crossword
         {
             RunTestsIn<DatabaseTests>();
             RunTestsIn<CluesTests>();
+            RunTestsIn<GuardianTests>();
             if (s_Errors.Any()) Console.ReadKey();
         }
 

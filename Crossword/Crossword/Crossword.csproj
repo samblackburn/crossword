@@ -70,6 +70,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\DatabaseTests.cs" />
     <Compile Include="Solver.cs" />
+    <Compile Include="Tests\GuardianTests.cs" />
     <Compile Include="Word.cs" />
   </ItemGroup>
   <ItemGroup>
