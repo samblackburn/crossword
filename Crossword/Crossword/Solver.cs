@@ -16,9 +16,11 @@ namespace Crossword
             this.m_Pattern = pattern;
         }
 
+        internal Word[] LongList { get { return Word.Matching(m_Pattern); } }
+
         internal Word[] DoubleDefinitions()
         {
-            IEnumerable<Word> result = Word.Matching(m_Pattern);
+            IEnumerable<Word> result = LongList;
             foreach (var cluePart in ClueParts)
             {
                 var candidates = new Word(cluePart).AllExceptAntonym;
@@ -29,7 +31,7 @@ namespace Crossword
 
         internal PartialSolution Included()
         {
-            IEnumerable<Word> result = Word.Matching(m_Pattern).Where(c => ClueText.Contains(c.Text));
+            IEnumerable<Word> result = LongList.Where(c => ClueText.Contains(c.Text));
             return new PartialSolution(result, ClueParts);
         }
 
