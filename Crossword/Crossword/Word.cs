@@ -56,7 +56,7 @@ namespace Crossword
             using (var conn = new MySqlConnection("Data Source=localhost;Database=wn_pro_mysql;User ID=sam;Password=;Old Guids=true;"))
             {
                 conn.Open();
-                var sql = String.Format("SELECT word FROM wn_synset WHERE word like '{0}'", pattern.Replace(" ", "\\_"));
+                var sql = String.Format("SELECT word FROM wn_synset WHERE word REGEXP '^{0}$'", pattern.Replace("_", "[a-z]").Replace(" ", "\\_"));
                 var result = new MySqlCommand(sql, conn).ExecuteReader();
                 var list = new List<Word>();
                 while (result.Read())

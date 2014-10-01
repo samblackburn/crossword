@@ -16,7 +16,7 @@ namespace Crossword
             this.m_Pattern = pattern;
         }
 
-        internal Word[] LongList { get { return Word.Matching(m_Pattern); } }
+        internal PartialSolution LongList { get { return new PartialSolution(Word.Matching(m_Pattern), ClueParts); } }
 
         internal Word[] DoubleDefinitions()
         {
@@ -53,7 +53,7 @@ namespace Crossword
 
         internal Word[] Guesses()
         {
-            return Included().Concat(Anagram()).ToArray();
+            return LongList.PlusStraight().ToArray();
         }
     }
 }

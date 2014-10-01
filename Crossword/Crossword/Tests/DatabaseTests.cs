@@ -61,5 +61,12 @@ namespace Crossword
             var matches = Word.Matching("f__t b___e").Select(w => w.Text);
             CollectionAssert.Contains(matches, "foot_brake");
         }
+
+        [Test]
+        public void SpaceIsNotALetter()
+        {
+            var matches = Word.Matching("b____c__").Select(w => w.Text);
+            CollectionAssert.DoesNotContain(matches, "bear_cub");
+        }
     }
 }
