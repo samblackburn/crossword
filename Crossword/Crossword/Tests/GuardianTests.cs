@@ -18,7 +18,7 @@ namespace Crossword.Tests
         [Test]
         public void GuessEverythingAlgo()
         {
-            Assert.That(Cryptic29_09_2014((clue, pattern) => Word.Matching(pattern), true), Is.GreaterThan(0.46));
+            Assert.That(Cryptic29_09_2014((clue, pattern) => Word.Matching(pattern)), Is.GreaterThan(0.46));
         }
 
         [Test]
@@ -27,7 +27,7 @@ namespace Crossword.Tests
             Assert.That(Cryptic29_09_2014((clue, pattern) => {
                 var candidates = Word.Matching(pattern);
                 return clue.Split().SelectMany(w => new Word(w).AllExceptAntonym).Where(candidates.Contains).Concat(candidates);
-            }, true), Is.GreaterThan(0.52));
+            }), Is.GreaterThan(0.52));
         }
 
         private double Cryptic29_09_2014(Func<string, string, IEnumerable<Word>> algo, bool verbose = false)
