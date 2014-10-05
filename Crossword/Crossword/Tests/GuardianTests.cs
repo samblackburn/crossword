@@ -10,7 +10,27 @@ namespace Crossword.Tests
     class GuardianTests
     {
         [Test]
-        public void Cryptic29_09_2014()
+        public void InitialGuessingAlgo()
+        {
+            Assert.That(Cryptic29_09_2014((clue, pattern) => new Solver(clue, pattern).Guesses()), Is.GreaterThan(0.056));
+        }
+
+        [Test]
+        public void GuessEverythingAlgo()
+        {
+            Assert.That(Cryptic29_09_2014((clue, pattern) => Word.Matching(pattern), true), Is.GreaterThan(0.46));
+        }
+
+        [Test]
+        public void AllSynonymsThenEverythingAlgo()
+        {
+            Assert.That(Cryptic29_09_2014((clue, pattern) => {
+                var candidates = Word.Matching(pattern);
+                return clue.Split().SelectMany(w => new Word(w).AllExceptAntonym).Where(candidates.Contains).Concat(candidates);
+            }, true), Is.GreaterThan(0.52));
+        }
+
+        private double Cryptic29_09_2014(Func<string, string, IEnumerable<Word>> algo, bool verbose = false)
         {
             var testCases = new Dictionary<string, string> {
                 {"ABBACY", "Superior office" },
@@ -44,15 +64,28 @@ namespace Crossword.Tests
                 {"TAPERED", "Dispensed with red tape — came to the point" },
                 {"TOADSTOOL", "May be spotted in the woods, wearing a cap"},
             };
+            double score = 0;
             foreach (var testCase in testCases)
             {
                 var pattern = new Regex("[A-Z]").Replace(testCase.Key, "_");
-                var solver = new Solver(testCase.Value, pattern);
-                var guesses = solver.Guesses().Select(w => w.Text).ToArray();
+                var guesses = algo(testCase.Value, pattern).Select(w => w.Text.ToUpper()).ToArray();
+                double thisScore = ScoreForGuessArray(testCase, guesses);
+                score += thisScore;
+                if (!verbose) continue;
                 Console.WriteLine("Clue: {0} ", testCase.Value);
                 Console.WriteLine("Answer: {0} ", testCase.Key);
-                Console.WriteLine(String.Join(Environment.NewLine, guesses));
+                Console.WriteLine("Score: {0} ", thisScore);
+                //Console.WriteLine(String.Join(Environment.NewLine, guesses));
             }
+            return score / testCases.Count;
+        }
+
+        private static double ScoreForGuessArray(KeyValuePair<string, string> testCase, string[] guesses)
+        {
+            for (int i = 0; i < guesses.Length; i++) 
+                if (guesses[i] == testCase.Key) 
+                    return (testCase.Key.Length - Math.Log(i + 1) / Math.Log(26)) / testCase.Key.Length;
+            return 0;
         }
     }
 }
