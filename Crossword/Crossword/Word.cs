@@ -39,7 +39,7 @@ namespace Crossword
             using (var conn = new MySqlConnection("Data Source=localhost;Database=wn_pro_mysql;User ID=sam;Password=;Old Guids=true;"))
             {
                 conn.Open();
-                var sql = String.Format("SELECT two.Word FROM wn_synset one, wn_synset two, {0} relation WHERE relation.synset_id_1 = one.synset_id AND relation.synset_id_2 = two.synset_id AND one.Word = '{1}'", table, Text);
+                var sql = String.Format("SELECT two.Word FROM wn_synset one, wn_synset two, {0} relation WHERE relation.synset_id_1 = one.synset_id AND relation.synset_id_2 = two.synset_id AND one.Word = '{1}'", table, Text.Replace(" ", "_").Replace("'", "\\'"));
                 var result = new MySqlCommand(sql, conn).ExecuteReader();
                 var list = new List<Word>();
                 while (result.Read())

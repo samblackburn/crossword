@@ -48,6 +48,13 @@ namespace Crossword
         }
 
         [Test]
+        public void ApostropheIsNotASqlInjectionAttackVector()
+        {
+            var sim = new Word("pandora's box").Hypernym.Select(w => w.Text);
+            CollectionAssert.Contains(sim, "chest");
+        }
+
+        [Test]
         public void DogIsAThreeLetterWord()
         {
             var matches = Word.Matching("___").Select(w => w.Text);
