@@ -11,6 +11,7 @@ namespace Crossword
 
         static void Main(string[] args)
         {
+            RunTestsIn<CacheTests>();
             RunTestsIn<DatabaseTests>();
             RunTestsIn<CluesTests>();
             RunTestsIn<GuardianTests>();
