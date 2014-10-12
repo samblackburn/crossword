@@ -73,6 +73,7 @@
     <Compile Include="Solver.cs" />
     <Compile Include="Tests\GuardianTests.cs" />
     <Compile Include="Word.cs" />
+    <Compile Include="WordCache.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
