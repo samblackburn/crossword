@@ -9,19 +9,19 @@ namespace Crossword.Tests
     [TestFixture]
     class GuardianTests
     {
-        [Test]
+        [Test, Explicit] // Slow, does not use cache
         public void InitialGuessingAlgo()
         {
             Assert.That(Cryptic29_09_2014((clue, pattern) => new Solver(clue, pattern).Guesses()), Is.GreaterThan(0.056));
         }
 
-        [Test]
+        [Test, Explicit] // Slow, does not use cache
         public void GuessEverythingAlgo()
         {
             Assert.That(Cryptic29_09_2014((clue, pattern) => Word.Matching(pattern)), Is.GreaterThan(0.46));
         }
 
-        [Test]
+        [Test, Explicit] // Slow, does not use cache
         public void AllSynonymsThenEverythingAlgo()
         {
             Assert.That(Cryptic29_09_2014((clue, pattern) => {

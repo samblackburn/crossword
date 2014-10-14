@@ -1,4 +1,5 @@
 ﻿using Crossword.Tests;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,13 @@ namespace Crossword
 
         private static void RunTestsIn<T>() where T : new()
         {
-            foreach (var test in typeof(T).GetMethods().Where(m => m.DeclaringType == typeof(T)))
+            var methods = typeof(T).GetMethods()
+                .Where(m => m.DeclaringType == typeof(T))
+                .Where(m => m.GetCustomAttributes(typeof(TestAttribute), false).Any())
+                .Where(m => !m.GetCustomAttributes(typeof(ExplicitAttribute), false).Any())
+                .Where(m => !m.GetCustomAttributes(typeof(IgnoreAttribute), false).Any());
+
+            foreach (var test in methods)
             {
                 try
                 {
