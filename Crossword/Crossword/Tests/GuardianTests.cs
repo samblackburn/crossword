@@ -30,6 +30,16 @@ namespace Crossword.Tests
             }), Is.GreaterThan(0.52));
         }
 
+        [Test]
+        public void AllSynonymsThenEverythingAlgoUsingCache()
+        {
+            Assert.That(Cryptic29_09_2014((clue, pattern) =>
+            {
+                var candidates = Word.Matching(pattern).Select(w => w.Text).ToArray();
+                return clue.Split().SelectMany(w => WordCache.Instance[w]).Where(candidates.Contains).Concat(candidates).Select(w => new Word(w));
+            }), Is.GreaterThan(0.48));
+        }
+
         private double Cryptic29_09_2014(Func<string, string, IEnumerable<Word>> algo, bool verbose = false)
         {
             var testCases = new Dictionary<string, string> {

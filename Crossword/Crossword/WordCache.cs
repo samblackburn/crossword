@@ -11,7 +11,7 @@ namespace Crossword
     class WordCache
     {
         public static WordCache Instance = new WordCache();
-        public string[] this[string key] { get { return all[key].ToArray(); } }
+        public string[] this[string key] { get { return all.ContainsKey(key) ? all[key].ToArray() : new string[0]; } }
         private ConcurrentDictionary<string, ConcurrentBag<string>> all = new ConcurrentDictionary<string, ConcurrentBag<string>>();
 
         public WordCache()
@@ -19,7 +19,7 @@ namespace Crossword
             using (var conn = new MySqlConnection("Data Source=localhost;Database=wn_pro_mysql;User ID=sam;Password=;Old Guids=true;"))
             {
                 conn.Open();
-                Join(all, conn, "wn_antonym");
+                //Join(all, conn, "wn_antonym");
                 Join(all, conn, "wn_attr_adj_noun");
                 Join(all, conn, "wn_cause");
                 Join(all, conn, "wn_class_member");
@@ -44,9 +44,10 @@ namespace Crossword
             using (var reader = new MySqlCommand(sql, conn).ExecuteReader())
                 while (reader.Read())
                 {
-                    var key = (string)reader[0];
-                    var val = (string)reader[1];
+                    var key = ((string)reader[0]).ToLower();
+                    var val = ((string)reader[1]).ToLower();
                     all.AddOrUpdate(key, _ => new ConcurrentBag<string> { val }, (_, list) => { list.Add(val); return list; });
+                    all.AddOrUpdate(val, _ => new ConcurrentBag<string> { key }, (_, list) => { list.Add(key); return list; });
                 }
         }
     }
